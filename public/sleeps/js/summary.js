@@ -3,8 +3,8 @@ $(function() {
     , SVG_WIDTH = N * 50
     , SVG_HEIGHT = N * 2
     , BAR_HEIGHT_MULTIPLIER = 50
-    , BAR_WIDTH = 10
-    , BOTTOM_PADDING = 40
+    , BAR_WIDTH = 45
+    , BOTTOM_PADDING = 80
     , LEFT_PADDING = 40
     , BAR_DISTANCE = 80
     , SINCE = _(data).last().date
@@ -38,7 +38,6 @@ $(function() {
       }
   ;
 
-  console.log(data)
   var svg = d3.select('#sleep-graph').append('svg:svg')
     .attr('width', SVG_WIDTH + 'px')
     .attr('height', SVG_HEIGHT + 'px')
@@ -72,13 +71,14 @@ $(function() {
   .attr('width', BAR_WIDTH)
   .attr('fill', barFill)
 
-
-
-  console.log(domain)
-
   svg.append('g')
     .attr('class', 'x-axis')
     .attr('transform', 'translate(' + LEFT_PADDING + ',' + (SVG_HEIGHT - BOTTOM_PADDING) + ")")
     .call(xAxis)
+    .selectAll('text')
+      .style('text-anchor', 'end')
+      .style('dx', '-.8em')
+      .style('dy', '.15em')
+      .attr('transform', 'rotate(-65) translate(-25, -' + BAR_WIDTH / 2  + ')')
   ;
 });
