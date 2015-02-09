@@ -1,0 +1,13 @@
+<h1><%= settings.title %></h1>
+<% if (loggedIn) { %>
+<h3> Logged in as: <%= user.first + " " + user.last %></h3>
+
+<div id="links">
+  <a href="/sleeps">Look at the sleeps!</a>
+  <a href="/moves">Look at the moves!</a>
+</div>
+<% } else { %>
+  <a href="/login">
+    <button>Jawbonerize me!</button>
+  </a>
+<% } %>

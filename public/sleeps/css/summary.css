@@ -1,0 +1,9 @@
+.x-axis line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+.x-axis .minor line {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}

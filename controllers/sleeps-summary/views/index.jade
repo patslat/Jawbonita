@@ -1,0 +1,13 @@
+html
+head
+  script(type="text/javascript" src="js/index.js")
+  link(rel="stylesheet" type="text/css" href="css/index.css")
+body
+  div#sleep-summary
+    h1 Sleep Summary
+    p= 'data-points: ' + data.length
+
+    div#sleep-graph
+
+script(type='text/javascript').
+    var data =!{JSON.stringify(data)}

@@ -1,0 +1,20 @@
+h1 Sleeps
+
+div.sleep-list
+  each sleep in data.items
+    div.sleep-item
+      p.sleep-attr.title='On ' + sleep.date + ' you slept for ' + sleep.title
+      p.sleep-attr.sub_type= sleep.sub_type
+      p.sleep-attr.time_created= sleep.time_created
+      p.sleep-attr.time_completed= sleep.time_completed
+      p.sleep-attr.place_lat= sleep.place_lat
+      p.sleep-attr.place_lon= sleep.place_lon
+      p.sleep-attr.place_acc= sleep.place_acc
+      p.sleep-attr.place_name= sleep.place_name
+      img.sleep-attr.snapshot_image(src="https://jawbone.com" + sleep.snapshot_image)
+
+      h3 Details
+      - details = sleep.details
+      div.sleep-details
+        p.sleep-detail.awakenings= 'You woke up ' + details.awakenings + (details.awakenings === 1 ? ' time' : ' times')
+        p.sleep-detail.awake_time= 'You were awake for: ' + details.awake
