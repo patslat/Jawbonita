@@ -5,7 +5,7 @@ $(function() {
     , BAR_HEIGHT_MULTIPLIER = 50
     , BAR_WIDTH = 45
     , BOTTOM_PADDING = 80
-    , LEFT_PADDING = 40
+    , LEFT_PADDING = 80
     , BAR_DISTANCE = 80
     , SINCE = _(data).last().date
     , UNTIL = _(data).first().date
@@ -16,9 +16,12 @@ $(function() {
         return new Date(dateStr.slice(0, 4), dateStr.slice(4, 6), dateStr.slice(6, 8));
       }
       domain = _(data).map(function(d) { return parseDt(d.date); })
+      range = _(data).map(function(d) { return d.duration; })
   ;
 
-  var barHeight = function(d, i) { return durationToHours(d.duration) * BAR_HEIGHT_MULTIPLIER; }
+  var barHeight = function(d, i) {
+        return SVG_HEIGHT - yScale(d.duration/60/60)
+      }
     , barX = function(d, i) {
         // We subtract half of the width so the ticks align with the bar's center
         return LEFT_PADDING + xScale(parseDt(d.date)) - (BAR_WIDTH / 2);
@@ -59,6 +62,18 @@ $(function() {
     .tickPadding(5)
   ;
 
+
+  var yScale = d3.scale.linear()
+    .domain([0, _(range).max() / 60 / 60])
+    .range([SVG_HEIGHT, BOTTOM_PADDING])
+  ;
+
+  var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient('left')
+    .tickFormat(function(d) { return d })
+  ;
+
   var bars = container.selectAll('rect')
     .data(data)
     .enter()
@@ -66,10 +81,11 @@ $(function() {
   ;
 
   bars.attr('x', barX)
-  .attr('y', barY)
-  .attr('height', barHeight)
-  .attr('width', BAR_WIDTH)
-  .attr('fill', barFill)
+    .attr('y', barY)
+    .attr('height', barHeight)
+    .attr('width', BAR_WIDTH)
+    .attr('fill', barFill)
+  ;
 
   svg.append('g')
     .attr('class', 'x-axis')
@@ -80,5 +96,11 @@ $(function() {
       .style('dx', '-.8em')
       .style('dy', '.15em')
       .attr('transform', 'rotate(-65) translate(-25, -' + BAR_WIDTH / 2  + ')')
+  ;
+
+  svg.append('g')
+    .call(yAxis)
+    .attr('class', 'y-axis')
+    .attr('transform', 'translate(' + LEFT_PADDING + ', ' + -BOTTOM_PADDING + ')')
   ;
 });
